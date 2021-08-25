@@ -33,14 +33,24 @@ HTTPS 是 在HTTP基础上加上加密和认证等机制，比 HTTP 更加安全
 ## promise的实现原理
 Promise 是异步编程的一种解决方案。使用 Promise对象，可以将异步操作以同步操作的流程表达出来，避免了层层嵌套回调函数。
 
-Promise 是通过发布/订阅模式来实现的。通过 new Promise 创建实例，在 then() 中会收集回调， 异步操作完成后调用 resolve/reject 再执行回调。  
-如果传入的 executor 是同步任务，在执行 then 的时候，已经先执行了 resolve/reject，就直接执行传入的回调函数
+Promise有三个状态:
+- 待定（pending）: 初始状态，既没有被兑现，也没有被拒绝。
+- 已兑现（fulfilled）: 意味着操作成功完成。
+- 已拒绝（rejected）: 意味着操作失败。
+
+首先在 new Promise 的时候，要传入一个函数，传入的函数会立即执行。函数有两个参数，resolve 和 reject。  调用 resolve，状态会由 pending 变为 fulfilled，然后执行成功的回调；  调用 reject，状态会由 pending 变成 rejected，执行失败的回调。  
+promise还有一个then方法，接收两个参数，onResolved 和 onRejected，分别表示成功和失败的回调。  
+创建promise 实例的时候，如果传入函数是异步的，在调用 then 的时候，状态还是 pending，这时会先将成功和失败的回调分别放到一个队列中，等异步任务执行完成，调用 resolve/reject 的时候执行。  
+如果传入的函数是同步的，在调用then的时候，状态已经变成了 fulfilled 或 rejected，如果是 fulfilled 状态，就执行成功的回调，如果是 rejected 就执行失败的回调。
+
 
 ## 数组的方法有哪些，es6新增的方法有哪些？怎么实现数组去重
 
 数组常用的方法：pop、push、shift、unshift、splice、slice、map、find、filter、concat、forEach、findIndex、indexOf、reduce、reverse、every、some、join
 
 slice和splice 的区别：
+- slice(start, end)：从 start 开始截取到 end，包括start，不包括 end，返回截取出来的元素，原数组不会被改变
+- splice(start, deleteCount, item1, item2,...)：用来截取，添加元素。从 start 开始截取多个元素，返回被截取的元素，会影响原数组。
 
 es6新增的方法：Array.from、Array.of、find、findIndex、some、every
 
