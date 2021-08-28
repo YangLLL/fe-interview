@@ -30,7 +30,7 @@ Web服务器不会存储反射型 XSS 攻击的恶意脚本，这是和存储型
 3. 基于 DOM 的 XSS 攻击  
 基于 DOM 的 XSS 攻击是在数据传输过程中，或者是用户使用过程中修改 Web 页面的数据
 
-#### 如果阻止 XSS 攻击
+#### 如何阻止 XSS 攻击
 各种类型的 XSS 攻击都有一个共同点，就是首先往浏览器注入恶意脚本，然后通过恶意脚本将用户信息发送给恶意服务器，所以要阻止 XSS 攻击，可以通过防止恶意脚本的注入和恶意消息的发送来实现
 
 常用的阻止 XSS 攻击的策略：
@@ -59,8 +59,29 @@ CSP：
 ## 说一下小程序的授权登录流程？
 
 ## React项目优化做了什么？
+class组件的优化：
+1. 通过 shouldComponentUpdate(nextProps,nextState) 来优化：  
+react 中，默认情况下，shouldComponentUpdate 默认返回 true，父组件更新，子组件也会更新，不管数据有没有变化。通过在 shouldComponentUpdate 中进行对比，如果数据相同就返回false，就不会重新渲染了
+2. 通过PureComponent 来优化：  
+    如果当前 class 组件继承自 PureComponen，就会自动在 shouldComponentUpdate 中实现了对state和props的浅比较，减少重复渲染
+
+函数组建的优化：
+1. 使用 React.memo() 来包裹组件：
+   React.memo 与 PureComponent 相似，是用在函数组件中的，只检查props的变化，如果输入 props 相同则跳过组件渲染。如果用了useState 或 useContext 的组件变化了之后还是会更新。
+
 
 ## 浏览器页面渲染流程
+浏览器获取到资源后，就要进行页面渲染。页面渲染分为以下几个阶段：
+- DOM解析：将 html 解析成dom 树
+- CSS 解析：然后解析CSS，生成 CSSOM 树
+- render：结合 DOM 树和 CSSOM 树，构建render树
+- layout：然后进行布局
+- paint：最后绘制到页面上
+- JavaScript编译执行，如果在执行 js 的过程中 修改了 dom 或者是 css 样式，就可能触发 重排 和 重绘  
+
+重绘（repaint）：不改变元素在网页中的位置的样式时，会触发重绘，比如颜色的改变、visible的改变等。重绘不会重新布局  
+重排（reflow）：如果改变了元素在网页中的位置就会触发重排。比如增加、删除、移动 DOM 节点。  
+如何减少reflow：减少频繁改动，可以将多个结果的改动放到一个节点中一次添加到dom中
 
 ## 两数相加
 
