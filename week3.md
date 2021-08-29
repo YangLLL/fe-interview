@@ -55,8 +55,41 @@ CSP：
 3. 使用 CSRF Token 验证。
 
 ## 对MVC、MVVM的理解
+MVC，MVP，MVVM是三种架构模式。MVC 是 MVP 和 MVVM 的基础
+
+### MVC
+MVC 将软件分为三个部分：视图、模型和控制器  
+M：是 Model，指数据模型，用来存储数据  
+V：是 View，指的是视图界面，主要是展示界面和响应用户交互事件  
+C：是 Controller，控制器，处理业务逻辑  
+
+MVC 的工作流程：  
+View 响应用户事件，将用户指令传给 Controller，Controller 处理完业务逻辑之后，调用 Model 的接口对数据进行操作。Model 数据更新后，通知相关视图进行更新。
+
+### MVP
+MVP 是在 MVC 的基础上进行了优化，将 Controller 变成了 Presenter，同时改变了通信方式，Presenter 和 View，Presenter 和 Model 的通信都是双向的，View 和 Model 不发生联系，通过 Presenter 通信。
+
+### MVVM
+MVVM 在 MVP 的基础上又进行了改进，将 Presenter 改成了 ViewModel，采用了双向数据绑定，View 的改动自动反应到 ViewModel 上。  
+M：是 Model，数据模型，在 vue 中对应 data  
+V：是 View，视图，用来展示界面，响应用户事件，对应 vue 中的 `<template>`  
+VM: 是 ViewModel，视图模型，对应 vue 实例，实现数据的双向绑定，Model 变化时会自动触发 View 的更新，View变化时，也会马上更新数据。
+
+
+### MVVM 和 MVC 的区别：  
+MVVM 是把 MVC 中的 Controller 改成了 ViewModel，MVVM 实现了 View 和 Model 的自动同步，当 Model 的属性改变时，不用手动操作 DOM 元素来更新 View，改变属性后对应的 View 会自动更新。
+
 
 ## 说一下小程序的授权登录流程？
+
+小程序授权获取用户信息要绑定在一个 button 上，button的 open-type 设置为 getUserInfo，这样在button的 bindgetuserinfo 事件参数中就能获取到用户信息，和 encryptedData、iv 等信息。
+
+登录的流程：
+1. 客户端调用 wx.login() 获取微信登录凭证code
+2. wx.login 之后，调动后端提供的登录接口，需要上传 code，encryptedData，iv 
+3. 服务器调用微信服务器的 auth.code2Session接口，并上传 code，appId 和 appSecret，完成登录，换取到微信用户身份
+4. 服务端会生成一个token，返回给客户端，之后每次请求都带上。
+
 
 ## React项目优化做了什么？
 class组件的优化：
