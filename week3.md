@@ -1,7 +1,7 @@
->[说一下XSS和CSRF分别是什么?](#说一下XSS和CSRF分别是什么)  
->[对MVC、MVVM的理解](#对MVC、MVVM的理解)   
+>[说一下XSS和CSRF分别是什么?](#说一下xss和csrf分别是什么怎么防御xss又分了哪三类)  
+>[对MVC、MVVM的理解](#对mvcmvvm的理解)   
 >[说一下小程序的授权登录流程?](#说一下小程序的授权登录流程)  
->[React项目优化做了什么](#react项目优化做了什么)  
+>[React项目优化](#react项目优化)  
 >[浏览器页面渲染流程](#浏览器页面渲染流程)  
 >[算法题 - 两数相加](#两数相加)
 
@@ -91,7 +91,11 @@ MVVM 是把 MVC 中的 Controller 改成了 ViewModel，MVVM 实现了 View 和 
 4. 服务端会生成一个token，返回给客户端，之后每次请求都带上。
 
 
-## React项目优化做了什么？
+## React项目优化？
+1. 在列表中使用 key
+2. 页面销毁的时候清除自定义事件
+3. class组件使用shouldComponentUpdate 和PureComponent，函数组件使用 React.memo()
+
 class组件的优化：
 1. 通过 shouldComponentUpdate(nextProps,nextState) 来优化：  
 react 中，默认情况下，shouldComponentUpdate 默认返回 true，父组件更新，子组件也会更新，不管数据有没有变化。通过在 shouldComponentUpdate 中进行对比，如果数据相同就返回false，就不会重新渲染了
